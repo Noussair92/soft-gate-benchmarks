@@ -1,0 +1,11 @@
+numpy>=1.24
+hnswlib>=0.8.0
+sentence-transformers>=2.2.0
+beir>=2.0.0
+datasets>=2.14
+rank_bm25>=0.2.2
+scikit-learn>=1.3
+qdrant-client>=1.10
+# Only needed for B20 (run_llm_benchmark.py without --skip-bedrock)
+boto3>=1.34
+botocore[crt]

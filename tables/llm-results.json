@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "system": "B21 Flat + qwen2.5-coder:32b (code fine-tune, local) [Java/Python/SQL]",
+      "n_queries": 450,
+      "llm_accuracy": 0.9088888888888889,
+      "recall_in_pool": 0.9444444444444444,
+      "llm_accuracy_given_recall": 0.9623529411764706,
+      "parse_failure_rate": 0.0,
+      "p50_retrieve_ms": 1.5945420000207378,
+      "p50_llm_ms": 7381.228041000213,
+      "p50_total_ms": 7382.673416000216,
+      "total_input_tokens": 234786,
+      "total_output_tokens": 900,
+      "estimated_cost_usd": 0.0
+    }
+  ],
+  "config": {
+    "seed": 42,
+    "embed_model": "intfloat/e5-base-v2",
+    "ollama_model": "qwen2.5-coder:32b",
+    "bedrock_model": "<redacted: Bedrock inference profile for Claude Sonnet>",
+    "retrieve_pool": 5,
+    "n_queries": 450
+  }
+}

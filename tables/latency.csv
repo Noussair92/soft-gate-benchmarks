@@ -1,0 +1,20 @@
+system,p50_e2e_ms,p99_e2e_ms,p50_routing_ms,p50_retrieval_ms
+B0 Qdrant flat HNSW,0.983,1.413,0.002,0.981
+B1 Soft-Gate flat,1.013,1.469,0.04,0.973
+B2 Soft-Gate routed (ingest+query),2.16,2.742,0.007,2.153
+B3 Query-only routing,2.958,3.622,0.008,2.95
+B4 Random routing,2.109,3.184,0.001,2.108
+B5 Soft-Gate centroid routed (ingest+query),2.526,3.153,0.009,2.516
+B6 Soft-Gate centroid + RRF (ingest+query),2.494,3.154,0.009,2.483
+B7 Soft-Gate centroid + weighted RRF (ingest+query),2.562,3.57,0.01,2.549
+B8 Soft-Gate centroid top-1 early-exit (ingest+query),0.833,1.087,0.007,0.825
+B9 Soft-Gate centroid top-2 early-exit (ingest+query),1.482,2.068,0.008,1.474
+B10 Soft-Gate mixed-membership ingest (ingest+query),2.62,3.282,0.009,2.609
+B11 BM25 lexical baseline,20.205,264.745,19.59,0.619
+B12 Hybrid BM25 + dense fusion (flat),22.121,276.524,20.348,1.749
+B13 Unweighted multi-index merge (centroid experts),2.457,3.208,0.009,2.444
+B14 Learned router (oracle ingest + LR query gate),2.9,3.405,0.048,2.846
+"B15 Learned router, top-1 early-exit (oracle ingest)",0.932,1.206,0.042,0.887
+"B16 Learned router, top-2 early-exit (oracle ingest)",1.895,2.546,0.045,1.85
+B17 Flat + cross-encoder rerank,5555.721,5556.609,0.926,5554.795
+B18 Centroid top-2 routed + cross-encoder rerank,6513.627,6515.069,1.559,6512.068

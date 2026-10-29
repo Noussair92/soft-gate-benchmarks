@@ -1,0 +1,2 @@
+system,n_queries,llm_accuracy,recall_in_pool,llm_accuracy_given_recall,parse_failure_rate,p50_retrieve_ms,p50_llm_ms,p50_total_ms,total_input_tokens,total_output_tokens,estimated_cost_usd
+"B21 Flat + qwen2.5-coder:32b (code fine-tune, local) [Java/Python/SQL]",450,0.9088888888888889,0.9444444444444444,0.9623529411764706,0.0,1.5945420000207378,7381.228041000213,7382.673416000216,234786,900,0.0

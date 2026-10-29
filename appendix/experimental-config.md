@@ -1,0 +1,22 @@
+# Experimental Configuration
+
+- Seed: 42
+- Embedding model: intfloat/e5-base-v2
+- HNSW: M=16, efConstruction=200, efSearch=128
+- Top-k: 10
+- Docs per domain (cap): 4500
+- Queries per domain (cap): 450
+- Domains: fiqa (finance), CaseHOLD/LexGLUE (legal), nfcorpus (tech)
+- B5 centroid profiles: initial ingest via caption-embedding gates, then p_i = mean(embeddings in expert i) followed by one reassignment pass (1897/12633 docs moved on this run)
+- B6 fusion: RRF (k=60, pool=50 per expert) over B5's centroid-routed experts; gates kept for routing diagnostics only, not merge weight
+- B7 fusion: RRF (k=60, pool=50 per expert) with each candidate's RRF score scaled by its expert's routing gate
+- B8/B9: same centroid ingest as B5/B6/B7, but query time searches only the gate's top-1 (B8) or top-2 (B9) experts instead of all 3, gate-weighted merge
+- B10: mixed-membership ingest (target dual-write fraction=20%, derived tau=0.3415 this run) — a doc is dual-written into every expert whose centroid gate exceeds tau, falling back to its single argmax expert when none does; query time searches all experts, gate-weighted merge (note: fixed tau in {0.15, 0.25, 0.30} all degenerated to ~100% dual-write and tau=0.35 degenerated to 0% — this corpus's gate values cluster tightly near 1/3 for nearly every doc, so tau is now derived per-run from the runner-up-gate percentile instead of a hand-picked constant)
+- B11: BM25 (rank_bm25 Okapi, lowercase alnum tokenizer) over the full corpus, no embeddings at all
+- B12: RRF (k=60, pool=50) fusion of B11's BM25 ranking with B0's flat dense ranking — lexical+dense on the plain unrouted index, no expert routing
+- B13: same centroid hard-partition ingest as B5, but query time merges all 3 experts' raw cosine scores unweighted by the gate (isolates whether gate-weighting the merge matters at all, vs. just fanning out to every expert)
+- B14: multinomial logistic regression trained on doc embeddings -> true domain label (training accuracy 0.999), replacing the L2-centroid heuristic as the query-time gate; ingest placement is oracle (true domain), same as B3, so this isolates the query-side router itself against B3's heuristic-gate result
+- B15/B16: same learned router as B14, but early-exit to only its top-1 (B15) or top-2 (B16) ranked experts instead of gate-weighting a full 3-expert search — tests whether early-exit sidesteps the confident-wrong-suppression failure mode found in B14
+- B17/B18: two-stage retrieval with cross-encoder/ms-marco-MiniLM-L-6-v2 reranking a top-30 pool down to the final top-10; B17's pool comes from flat dense search, B18's from the same gate-weighted centroid top-2 pool B9 uses — isolates whether routing still matters once a reranker is cleaning up the final order. Cross-encoder inference is batched across all queries in one predict() call (batch_size=256) instead of one call per query, and doc text is capped at 800 chars before pairing; rerank cost is therefore reported as a per-query average (amortized), not a true per-query percentile — only the first-stage retrieval latency is genuinely per-query
+- Significance: paired percentile bootstrap (5000 resamples over queries) of each system vs B0 Qdrant flat HNSW on nDCG@10 and Recall@10; 95% CIs on both raw means and paired diffs in tables/significance.csv
+- Hardware: Apple Silicon, Python 3 benchmark harness

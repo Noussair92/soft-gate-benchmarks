@@ -1,0 +1,14 @@
+# Downloaded datasets, embedding caches, Qdrant scratch storage
+benchmarks/data/
+benchmarks/qdrant_local/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,193 @@
+{
+  "config": {
+    "n_docs": 12633,
+    "n_queries": 1223,
+    "seed": 42
+  },
+  "sanity_check_vs_published_csv": {
+    "flat_ndcg": 0.43155583571685385,
+    "flat_recall": 0.4579038501236082,
+    "centroid_T1_ndcg": 0.4300906574608758,
+    "centroid_T1_recall": 0.4602447950933048,
+    "centroid_T1_top1_acc": 0.8536385936222404,
+    "centroid_T1_entropy": 1.0980436719866367,
+    "published_flat_ndcg_ref": 0.4316,
+    "published_centroid_ndcg_ref": 0.4301
+  },
+  "gate_distribution_centroid_T1": {
+    "entropy_mean": 1.0980436719866367,
+    "entropy_p10": 1.0975757238746096,
+    "entropy_p25": 1.0978112836740923,
+    "entropy_p50": 1.0980747993768114,
+    "entropy_p75": 1.0983128250944314,
+    "entropy_p90": 1.0984808194110318,
+    "entropy_max_possible": 1.0986122886681098,
+    "top1_prob_mean": 0.34515289057215054,
+    "top1_prob_p10": 0.3390664310214136,
+    "top1_prob_p50": 0.3448725940382252,
+    "top1_prob_p90": 0.35194223080097575,
+    "frac_entropy_above_90pct_of_max": 1.0,
+    "frac_top1_prob_above_0.5": 0.0,
+    "frac_top1_prob_above_0.8": 0.0
+  },
+  "centroid_temperature_sweep": [
+    {
+      "T": 0.1,
+      "entropy_mean": 1.0462653109966789,
+      "top1_prob_mean": 0.4521291610632193,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.39373204699903297,
+      "recall_at_10": 0.4279480771403792
+    },
+    {
+      "T": 0.25,
+      "entropy_mean": 1.0896762798417023,
+      "top1_prob_mean": 0.38098824411186716,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.4111581001052848,
+      "recall_at_10": 0.4434463883229879
+    },
+    {
+      "T": 0.5,
+      "entropy_mean": 1.0963488276899096,
+      "top1_prob_mean": 0.3570517833465841,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.42206705970334407,
+      "recall_at_10": 0.45354257496938793
+    },
+    {
+      "T": 1.0,
+      "entropy_mean": 1.0980436719866367,
+      "top1_prob_mean": 0.34515289057215054,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.4300906574608758,
+      "recall_at_10": 0.4602447950933048
+    },
+    {
+      "T": 2.0,
+      "entropy_mean": 1.0984698511058808,
+      "top1_prob_mean": 0.33923166284964223,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.4321419969969105,
+      "recall_at_10": 0.4598565253426236
+    },
+    {
+      "T": 4.0,
+      "entropy_mean": 1.0985766477013184,
+      "top1_prob_mean": 0.33627944607975124,
+      "routing_top1_acc": 0.8536385936222404,
+      "ndcg_at_10": 0.4324158510392472,
+      "recall_at_10": 0.4592804360409664
+    }
+  ],
+  "per_domain_flat": {
+    "finance": {
+      "n_queries": 450,
+      "ndcg_at_10": 0.6433843491036692,
+      "recall_at_10": 0.6998666703666704
+    },
+    "legal": {
+      "n_queries": 450,
+      "ndcg_at_10": 0.29673117922661474,
+      "recall_at_10": 0.43333333333333335
+    },
+    "tech": {
+      "n_queries": 323,
+      "ndcg_at_10": 0.32427492053586526,
+      "recall_at_10": 0.15503531590145864
+    }
+  },
+  "per_domain_centroid_T1": {
+    "finance": {
+      "n_queries": 450,
+      "ndcg_at_10": 0.6400465309412241,
+      "recall_at_10": 0.705512173012173,
+      "routing_top1_acc": 0.7933333333333333,
+      "misroute_targets": {
+        "legal": 3,
+        "tech": 90
+      }
+    },
+    "legal": {
+      "n_queries": 450,
+      "ndcg_at_10": 0.29806722712959804,
+      "recall_at_10": 0.43555555555555553,
+      "routing_top1_acc": 0.9888888888888889,
+      "misroute_targets": {
+        "tech": 5
+      }
+    },
+    "tech": {
+      "n_queries": 323,
+      "ndcg_at_10": 0.32151604626248054,
+      "recall_at_10": 0.1529377911567613,
+      "routing_top1_acc": 0.7492260061919505,
+      "misroute_targets": {
+        "legal": 8,
+        "finance": 73
+      }
+    }
+  },
+  "worked_misroute_examples": [
+    {
+      "query_text": "Interactive Brokers: IOPTS and list of structured products",
+      "true_domain": "finance",
+      "predicted_domain": "tech",
+      "gate_vector": {
+        "finance": 0.34001228386545157,
+        "legal": 0.31773165152494254,
+        "tech": 0.3422560646096058
+      },
+      "ndcg_at_10_this_query": 0.8772153153380493,
+      "recall_at_10_this_query": 1.0
+    },
+    {
+      "query_text": "Is there any US bank that does not charge for incoming wire transfers?",
+      "true_domain": "finance",
+      "predicted_domain": "tech",
+      "gate_vector": {
+        "finance": 0.33935238720231214,
+        "legal": 0.3206776627585753,
+        "tech": 0.3399699500391126
+      },
+      "ndcg_at_10_this_query": 0.9709286432396583,
+      "recall_at_10_this_query": 1.0
+    },
+    {
+      "query_text": "How to work around the Owner Occupancy Affidavit to buy another home in less than a year?",
+      "true_domain": "finance",
+      "predicted_domain": "tech",
+      "gate_vector": {
+        "finance": 0.3352594951594648,
+        "legal": 0.3259539643173014,
+        "tech": 0.3387865405232338
+      },
+      "ndcg_at_10_this_query": 0.8318724637288826,
+      "recall_at_10_this_query": 0.75
+    },
+    {
+      "query_text": "Why aren't there solutions for electronic itemized receipt for retail in-store purchases?",
+      "true_domain": "finance",
+      "predicted_domain": "tech",
+      "gate_vector": {
+        "finance": 0.336418075228488,
+        "legal": 0.3161887107996676,
+        "tech": 0.34739321397184436
+      },
+      "ndcg_at_10_this_query": 0.43067655807339306,
+      "recall_at_10_this_query": 1.0
+    },
+    {
+      "query_text": "What are the ins/outs of writing equipment purchases off as business expenses in a home based business?",
+      "true_domain": "finance",
+      "predicted_domain": "tech",
+      "gate_vector": {
+        "finance": 0.34071985099390295,
+        "legal": 0.31201951678786766,
+        "tech": 0.3472606322182294
+      },
+      "ndcg_at_10_this_query": 0.4367467095119258,
+      "recall_at_10_this_query": 0.6666666666666666
+    }
+  ]
+}
